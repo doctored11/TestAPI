@@ -1,0 +1,141 @@
+
+:root {
+  --color-black: #000;
+  --color-white: #fff;
+
+  --color-gray: #393b3c;
+  --color-second-gray: #747474;
+
+  --color-accent: #6a5dc2;
+  --color-second-accent: #8577e1;
+
+  --small-indent: 1rem;
+  --middle-indent: 24px;
+  --big-indent: 56px;
+  --border-rad: 2rem;
+}
+
+* {
+  box-sizing: border-box;
+  outline-color: var(--color-second-accent);
+  /* border: 2px solid rgba(4, 175, 4, 0.568); */
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+  padding: 0;
+}
+/* #modal{
+  position: fixed;
+  width: 1vw;
+  height: 1vh;
+  
+} */
+body {
+  background-color: var(--color-black);
+}
+.frame {
+  width: 100%;
+  padding: 0 5.56%;
+}
+.sectionBlock {
+  padding: 40px 0 120px;
+}
+.simpleTxt {
+  color: var(--color-white);
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 32px;
+
+  text-decoration: none;
+}
+.miniTxt {
+  font-size: 18px;
+}
+.boldTxt {
+  font-family: "Play";
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 48px;
+}
+
+.btn {
+  cursor: pointer;
+  outline: none;
+
+  padding: 1rem 3rem;
+  color: var(--color-white);
+  background-color: var(--color-gray);
+  border-radius: var(--border-rad);
+  border: none;
+
+  font-family: "Play";
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 24px;
+  transition: background-color 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.btn:hover, .btn:focus {
+ 
+  background-color: var(--color-second-gray);
+}
+
+.btn--active {
+  background-color: var(--color-accent);
+}
+.btn--active:hover, .btn--active:focus {
+  background-color: var(--color-second-accent);
+}
+.btnSmall {
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.d-none {
+  display: none;
+}
+
+#youtube-player {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 600px) {
+  :root {
+    --small-indent: 12px;
+    /* --middle-indent: 24px;*/
+    --big-indent: 40px; 
+  }
+  .simpleTxt {
+   
+    font-size: 18px;
+  }
+  .miniTxt {
+    font-size: 14px;
+  }
+  .boldTxt {
+    font-size: 24px;
+  }
+  .sectionBlock{
+    padding-bottom: 32px;
+  }
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 16px;
+    line-height: 18px;
+    font-weight: 500;
+  }
+  section{
+    overflow: hidden;
+  }
+}
