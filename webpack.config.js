@@ -2,6 +2,7 @@ const path = require('path')
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
+
 const webpack = require('webpack');
 
 const dotenv = require('dotenv');
@@ -39,7 +40,7 @@ module.exports = {
                             outputPath: 'src/',
                             name: '[name].[ext]',
                         },
-                    }, 
+                    },
                 ],
             },
             {
@@ -59,7 +60,7 @@ module.exports = {
                 exclude: /\.module\.css$/,
                 use: ['style-loader', 'css-loader'],
             },
-            
+
         ]
     },
     plugins: [
@@ -73,7 +74,8 @@ module.exports = {
         }),
         new webpack.DefinePlugin({
             'process.env': JSON.stringify(process.env),
-        }),
+        })
+        
     ],
     devServer: {
         static: path.join(__dirname, 'dist'),

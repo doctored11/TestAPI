@@ -1,32 +1,65 @@
-// просто минимальный сервер для тестов авторизации
-
 const express = require('express');
 const axios = require('axios');
+const cookieParser = require('cookie-parser');
 const app = express();
-
 require('dotenv').config();
+const cors = require('cors');
 
-app.get('/auth/google', (req, res) => {
-    const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${process.env.CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}&scope=openid%20profile%20email`;
-    res.redirect(googleAuthUrl);
-});
+
+app.use(
+    cookieParser(),
+    cors({
+    origin: 'http://localhost:3003',  
+    credentials: true  
+}));
 
 app.get('/auth/google/callback', async (req, res) => {
     const { code } = req.query;
-    
-    const tokenResponse = await axios.post('https://oauth2.googleapis.com/token', {
-        code,
-        client_id: process.env.CLIENT_ID,
-        client_secret: process.env.CLIENT_SECRET,
-        redirect_uri: process.env.REDIRECT_URI,
-        grant_type: 'authorization_code'
-    });
-    
-    const { access_token } = tokenResponse.data;
 
-    const userInfo = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${access_token}`);
-    
-    res.json(userInfo.data);
+    try {
+        console.log('*__________*');
+        console.log('Client ID:', process.env.CLIENT_ID);
+        console.log('Client Secret:', process.env.CLIENT_SECRET);
+        console.log('Redirect URI:', process.env.REDIRECT_URI);
+
+        const tokenResponse = await axios.post('https://oauth2.googleapis.com/token', {
+            code,
+            client_id: process.env.CLIENT_ID,
+            client_secret: process.env.CLIENT_SECRET,
+            redirect_uri: process.env.REDIRECT_URI,
+            grant_type: 'authorization_code',
+        });
+
+        const { access_token } = tokenResponse.data;
+
+
+        res.cookie('token', access_token, {
+            httpOnly: true,
+            secure: false,
+            maxAge: 3600000 / 125,
+        });
+
+
+        res.redirect('http://localhost:3003');
+    } catch (error) {
+        console.error('Ошибка токена:', error.response ? error.response.data : error.message);
+        res.status(500).send('Authentication failed');
+    }
 });
 
-app.listen(3000, () => console.log('Server running on http://localhost:3000'));
+app.get('/auth/check', (req, res) => {
+    const token = req.cookies.token;
+    if (token) {
+        res.json({ isAuthorized: true });
+    } else {
+        res.json({ isAuthorized: false });
+    }
+});
+
+app.listen(3000, () => {
+    console.log('\nServer running on http://localhost:3000\n');
+
+    console.log('Client ID:', process.env.CLIENT_ID);
+    
+
+});
