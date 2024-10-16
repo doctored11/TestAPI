@@ -67,4 +67,4 @@ REDIRECT_URI=http://localhost:3000/auth/google/callback
 ![Google OAuth Настройки](./rSrc/googleKeys.png)
 
 - На скриншоте показано, где посмотреть **Client ID** и **Client Secret**.
-- Важно, чтоб в поле **Authorized redirect URIs** было указано: `http://localhost:3000/auth/google/callback`.
+- Важно, чтоб в поле **Authorized redirect URIs** было указано: `http://localhost:3000/auth/google/callback` (*так как он указан на сервере*)
