@@ -1,39 +1,56 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { useState } from "react";
-import "./styles/normalize.css";
+import { checkAuth, refreshAuthToken } from "./api/authApi";
+import { startGoogleAuth } from "./api/googleApi";
 import "./styles/global.css";
+import { Frame } from "./components/Frame";
 
 function App() {
   const [isAuthorized, setIsAuthorized] = useState(false);
+  const [isRefrashed, setIsRefrashed] = useState(false);
 
   useEffect(() => {
-    fetch('http://localhost:3000/auth/check', { credentials: 'include' })
-      .then(response => response.json())
-      .then(data => {
+    if (isRefrashed) {
+      const timer = setTimeout(() => {
+        setIsRefrashed(false);
+      },  500);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isRefrashed]);
+
+  useEffect(() => {
+    checkAuth()
+      .then((data) => {
         if (data.isAuthorized) {
           setIsAuthorized(true);
         }
       })
-      .catch(error => {
-        console.error('Ошибка авторизации:', error);
+      .catch((error) => {
+        console.error("Ошибка авторизации:", error);
       });
   }, []);
 
-  const handleAuth = () => {
-    const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${process.env.CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}&scope=openid%20profile%20email`;
-    window.location.href = googleAuthUrl;
+  const refreshToken = () => {
+    refreshAuthToken()
+      .then((data) => {
+        if (data.success) {
+          console.log("Токен успешно обновлён!");
+          setIsRefrashed(true);
+        }
+      })
+      .catch((error) => {
+        console.error("Ошибка обновления токена:", error);
+      });
   };
 
   return (
-    <div>
-      <h1 className="simpleTxt">
-        {isAuthorized ? "Авторизован ✨" : "не авторизован 🤡"}
-      </h1>
-      <button className={"simpleTxt btn"} onClick={handleAuth}>
-        Авторизация Google
-      </button>
-    </div>
+    <Frame
+      isAuthorized={isAuthorized}
+      onAuthClick={startGoogleAuth}
+      onRefreshClick={refreshToken}
+      isRefrashed = {isRefrashed}
+    />
   );
 }
 
