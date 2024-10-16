@@ -81,7 +81,7 @@ app.get('/auth/refresh', async (req, res) => {
 
         const { access_token } = refreshResponse.data;
 
-        // Обновляем access_token в куках
+        
         res.cookie('token', access_token, {
             httpOnly: true,
             secure: false,
