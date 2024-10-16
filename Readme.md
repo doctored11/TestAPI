@@ -16,9 +16,9 @@ _В первую очередь это подсказка для меня в б�
 
 1. Надо перейти в [Google Cloud Console](https://console.cloud.google.com/).
 2. Создайть новый проект.
-3. В разделе **API & Services** найти **OAuth consent screen** и настройте экран с необходимыми данными. (Жмяк на external, и потом заполняем название и прочее)
-4. В разделе **Credentials** сверху нажмите на **+Create Credentials** → **OAuth Client IDs**.
-5. Выберите **Web Application** и укажите **Authorized Redirect URIs**:
+3. В разделе **API & Services** найти **OAuth consent screen** и настроить экран с необходимыми данными. (Жмяк на external, и потом заполняем название и прочее)
+4. В разделе **Credentials** сверху нажать на **+Create Credentials** → **OAuth Client IDs**.
+5. Перейти в **Web Application** и указать следующие url-ки в **Authorized Redirect URIs**:
    - `http://localhost:3000/auth/google/callback`
    - `http://localhost:3003/auth/google/callback`
 6. Надо запомнить **Client ID** и **Client Secret**.
@@ -27,7 +27,7 @@ _В первую очередь это подсказка для меня в б�
 
 ## Как настроить ключи
 
-### Для клиента, создайте файл `.env`:
+### Для клиента, создайте файл `.env` (или измените):
 
 ```bash
 REACT_APP_CLIENT_ID=client-id
@@ -35,7 +35,7 @@ CLIENT_SECRET=client-secret
 REACT_APP_REDIRECT_URI=http://localhost:3000/auth/google/callback
 ```
 
-### Для сервера, создайте файл `.env`:
+### Для сервера, создайте файл `.env` (или измените):
 
 ```bash
 CLIENT_ID=client-id
@@ -65,4 +65,4 @@ REDIRECT_URI=http://localhost:3000/auth/google/callback
 ![Google OAuth Настройки](./rSrc/googleKeys.png)
 
 - На скриншоте показано, где посмотреть **Client ID** и **Client Secret**.
-- Убедитесь, что в поле **Authorized redirect URIs** указано: `http://localhost:3000/auth/google/callback`.
+- Важно, чтоб в поле **Authorized redirect URIs** было указано: `http://localhost:3000/auth/google/callback`.
